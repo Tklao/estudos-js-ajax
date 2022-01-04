@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pr-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Estudos Ajax</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background-color: rgb(36, 39, 38);
+        color: whitesmoke;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        font-size: 16pt;
+      }
+      header {
+        background-color: dodgerblue;
+        text-align: center;
+        padding: 10px;
+      }
+      .botao {
+        background-color: dodgerblue;
+        border: none;
+        color: white;
+        padding: 10px;
+        border-radius: 10px;
+        margin: 10px 0 0 10px;
+        transition: 200ms;
+        box-shadow: 3px 3px 1px;
+        cursor: pointer;
+      }
+      .botao:hover {
+        transform: scale(0.9);
+        box-shadow: 0 0 0;
+      }
+      .lista {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-wrap: wrap;
+      }
+
+      .lista div {
+        background-color: dodgerblue;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        margin:10px;
+        
+       
+        border-radius: 8px;
+      }
+    
+    </style>
+  </head>
+
+  <body>
+    <header>Requisições Ajax</header>
+    <button class="botao">Mostrar Países</button>
+
+    <div class="lista"></div>
+    <script>
+      document.querySelector(".botao").addEventListener("click", () => {
+        let xhr = new XMLHttpRequest();
+
+        let url = "https://restcountries.com/v3.1/all";
+
+        xhr.onload = function () {
+          if (xhr.status == 200) {
+            console.log("Sucess");
+
+            let paises = JSON.parse(this.response);
+            paises.forEach((pais) => {
+              const listaPais = document.createElement("div");
+              const imagemPais = document.createElement("img");
+
+              listaPais.innerHTML = pais.name.common;
+              imagemPais.src = pais.flags.png;
+
+              document.querySelector(".lista").appendChild(listaPais);
+              listaPais.appendChild(imagemPais);
+            });
+          }
+        };
+        xhr.open("GET", url, true);
+
+        xhr.send();
+      });
+    </script>
+  </body>
+</html>
